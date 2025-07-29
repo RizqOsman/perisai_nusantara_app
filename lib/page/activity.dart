@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:perisai_nusantara_app/page/components/background.dart';
 import 'package:perisai_nusantara_app/page/components/dialogactivitydetail.dart';
 import 'package:perisai_nusantara_app/page/components/dialogaddactivity.dart';
