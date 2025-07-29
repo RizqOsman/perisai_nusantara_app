@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -34,13 +33,13 @@ class DialogAddActivityState extends State<DialogAddActivity> {
   //   );
   // }
   Future postUpload() async {
-    var stream = new http.ByteStream(_image!.openRead());
+    var stream = http.ByteStream(_image!.openRead());
     stream.cast();
     var length = await _image!.length();
-    var url = Uri.parse('http://192.168.1.12:5000/aktifitas');
-    var request = new http.MultipartRequest("POST", url);
+    var url = Uri.parse('172.15.1.21:8000/aktifitas');
+    var request = http.MultipartRequest("POST", url);
     var multipartFile =
-        new http.MultipartFile("image", stream, length, filename: 'x.jpg');
+        http.MultipartFile("image", stream, length, filename: 'x.jpg');
 
     request.files.add(multipartFile);
     request.fields['nip'] = nip;
@@ -88,13 +87,13 @@ class DialogAddActivityState extends State<DialogAddActivity> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 20),
-          margin: EdgeInsets.only(top: 45),
+          padding: const EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 20),
+          margin: const EdgeInsets.only(top: 45),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
               ]),
@@ -109,7 +108,7 @@ class DialogAddActivityState extends State<DialogAddActivity> {
                 height: 15,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: MediaQuery.of(context).size.height * 0.1,
                 decoration: BoxDecoration(
@@ -124,11 +123,11 @@ class DialogAddActivityState extends State<DialogAddActivity> {
                     autofocus: true,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    decoration: new InputDecoration.collapsed(
+                    decoration: const InputDecoration.collapsed(
                       hintText: "",
                     )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               _image == null
@@ -148,12 +147,12 @@ class DialogAddActivityState extends State<DialogAddActivity> {
                                   onPressed: () {
                                     getImage(ImageSource.camera);
                                   },
-                                  icon: FaIcon(
+                                  icon: const FaIcon(
                                     FontAwesomeIcons.camera,
                                     color: Colors.red,
                                   )),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
                                 child: Text(
                                   "|",
                                   style: TextStyle(color: Colors.red),
@@ -163,7 +162,7 @@ class DialogAddActivityState extends State<DialogAddActivity> {
                                   onPressed: () {
                                     getImage(ImageSource.gallery);
                                   },
-                                  icon: FaIcon(
+                                  icon: const FaIcon(
                                     FontAwesomeIcons.image,
                                     color: Colors.red,
                                   )),
@@ -187,7 +186,7 @@ class DialogAddActivityState extends State<DialogAddActivity> {
                             width: 100,
                             height: 100,
                             child: const Center(
-                              child: const Text('Error load image',
+                              child: Text('Error load image',
                                   textAlign: TextAlign.center),
                             ),
                           );
@@ -195,17 +194,17 @@ class DialogAddActivityState extends State<DialogAddActivity> {
                       ),
                     ),
               _image == null
-                  ? SizedBox()
+                  ? const SizedBox()
                   : Align(
                       alignment: Alignment.bottomRight,
                       child: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.send,
                           color: Colors.blue,
                         ),
                         onPressed: () {
                           postUpload();
-                          Get.off(Home());
+                          Get.off(const Home());
                           Get.snackbar("Berhasil!", "Aktifitas ditambahkan");
                         },
                       ),

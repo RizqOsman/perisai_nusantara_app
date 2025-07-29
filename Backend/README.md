@@ -27,7 +27,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 3. Inisialisasi database dengan data sample:
 ```bash
-curl -X POST "http://localhost:8000/init-db"
+curl -X POST "http://172.15.1.21:8000/init-db"
 ```
 
 ## Endpoints
@@ -94,5 +94,5 @@ Menggunakan SQLite dengan file database di `database/perisai_nusantara.db`
 ## Dokumentasi API
 
 Setelah menjalankan server, buka:
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc 
+- Swagger UI: http://172.15.1.21:8000/docs
+- ReDoc: http://172.15.1.21:8000/redoc 

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class ContactServices {
   static Future<List<ContactModel>> getData() async {
     final response = await http.get(Uri.parse(
-        'https://637db38316c1b892ebd275c5.mockapi.io/databook/kontak_darurat'));
+        'http://172.15.1.21:8000/emergency-contact'));
 
     return compute(parseData, response.body);
   }

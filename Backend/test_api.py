@@ -8,7 +8,7 @@ import json
 import uuid
 from datetime import datetime
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://172.15.1.21:8000"
 
 def test_health_check():
     """Test health check endpoint"""

@@ -19,11 +19,11 @@ class _SelectSessionState extends State<SelectSession> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pilih Sesi Anggota'),
+        title: const Text('Pilih Sesi Anggota'),
       ),
       body: Stack(
         children: [
-          CustomBackground(),
+          const CustomBackground(),
           FutureBuilder<List<ListMemberModel>>(
             future: MemberService.get(idsite),
             builder: (context, snapshot) {
@@ -31,10 +31,10 @@ class _SelectSessionState extends State<SelectSession> {
                 return const Center(
                   child: Text('An error has occurred!'),
                 );
-              } else if (snapshot.hasData && snapshot.data!.length > 0) {
+              } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 return MemberList(selectSession: snapshot.data!);
               } else {
-                return Center(
+                return const Center(
                   child: Text(
                     'Tidak ada anggota.',
                     style: TextStyle(color: Colors.white38),
@@ -61,8 +61,8 @@ class MemberList extends StatelessWidget {
         itemBuilder: (context, index) {
           ListMemberModel data = selectSession[index];
           return Container(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            margin: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5), color: Colors.white),
             child: Row(
@@ -70,17 +70,17 @@ class MemberList extends StatelessWidget {
               children: [
                 Text(
                   data.name,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 TextButton(
                     onPressed: () {
                       session.write('nik', data.nik);
                       session.write('name', data.name);
-                      Get.offAll(() => Home(
+                      Get.offAll(() => const Home(
                             sessionMode: true,
                           ));
                     },
-                    child: Text('Pilih'))
+                    child: const Text('Pilih'))
               ],
             ),
           );

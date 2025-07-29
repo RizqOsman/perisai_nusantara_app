@@ -1,20 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:perisai_nusantara_app/page/components/roundedinputdate.dart';
-import 'package:perisai_nusantara_app/page/home.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
-import 'package:perisai_nusantara_app/page/components/background.dart';
-import 'package:perisai_nusantara_app/page/components/roundedbutton.dart';
-import 'package:perisai_nusantara_app/page/components/roundedinputfield.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:perisai_nusantara_app/controller/utilities/theme/color.dart';
+import 'package:perisai_nusantara_app/page/components/modern_input_field.dart';
+import 'package:perisai_nusantara_app/page/components/modern_button.dart';
 
 class BukuTamu extends StatefulWidget {
   const BukuTamu({Key? key}) : super(key: key);
@@ -55,7 +49,7 @@ class _BukuTamuState extends State<BukuTamu> {
   }
 
   Future upload() async {
-    var url = Uri.parse('http://192.168.1.12:5000/daftar-tamu');
+    var url = Uri.parse('http://172.15.1.21:8000/daftar-tamu');
 
     List<int> imageBytes = _foto!.readAsBytesSync();
     isLoading = true;
@@ -83,7 +77,7 @@ class _BukuTamuState extends State<BukuTamu> {
       stream.cast();
       var length = await _foto!.length();
       //Uri.parse = Mengikuti IP Address dari bawaan device || ipv4 used
-      var url = Uri.parse('http://192.168.1.12:5000/daftar-tamu');
+      var url = Uri.parse('http://172.15.1.21:8000/daftar-tamu');
       var request = new http.MultipartRequest("POST", url);
       late File imageFile = File(_foto!.path);
       var multipartFile = new http.MultipartFile(
@@ -130,184 +124,252 @@ class _BukuTamuState extends State<BukuTamu> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: bgColor3,
       appBar: AppBar(
-        title: const Text('Buku Tamu'),
+        title: const Text(
+          'Buku Tamu',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.5,
+          ),
+        ),
+        backgroundColor: primaryColor,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Stack(
-        children: [
-          const CustomBackground(),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.all(8),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      RoundedInputField(
-                        width: size.width * 0.9,
-                        hintText: 'No.Visitor',
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              primaryColor.withOpacity(0.1),
+              bgColor3,
+            ],
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              // Header Section
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: primaryGradient,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: primaryColor.withOpacity(0.3),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.person_add,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Daftar Tamu Check-In",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            "Isi data tamu yang akan berkunjung",
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.9),
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              // Form Section
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: cardShadow.withOpacity(0.1),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                      // Form Title
+                      Text(
+                        'Data Tamu',
+                        style: TextStyle(
+                          color: textPrimary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      
+                      // No. Visitor
+                      ModernInputField(
+                        hintText: 'No. Visitor',
+                        icon: Icons.confirmation_number,
                         onChanged: (novisitor) {
                           _noVisitor = novisitor;
                         },
-                        icon: FontAwesomeIcons.calendar,
                       ),
-                      RoundedInputDate(
-                        hintText: 'Tanggal', 
-                        dateFormat: DateFormat('yyyy-MM-dd'), 
-                        initialDate: DateTime.now(), 
-                        firstDate: DateTime(2015, 8), 
-                        lastDate: DateTime(2101), 
-                        width: size.width * 0.9, 
-                        onDateChanged: (tanggalvalue) { 
-                          _tanggal = tanggalvalue as DateTime;
-                         },),
-                      RoundedInputField(
-                        width: size.width * 0.9,
+                      
+                      // Date Field
+                      ModernDateField(
+                        hintText: 'Pilih Tanggal',
+                        selectedDate: _tanggal,
+                        onDateSelected: (tanggalvalue) {
+                          _tanggal = tanggalvalue;
+                        },
+                        icon: Icons.calendar_today,
+                      ),
+                      
+                      // Nama Tamu
+                      ModernInputField(
                         hintText: 'Nama Tamu',
+                        icon: Icons.person,
                         onChanged: (namaTamu) {
                           _namaTamu = namaTamu;
                         },
-                        icon: FontAwesomeIcons.person,
                       ),
-                      RoundedInputField(
-                        width: size.width * 0.9,
+                      
+                      // Alamat
+                      ModernInputField(
                         hintText: 'Alamat/Rumah Tujuan',
+                        icon: Icons.location_on,
+                        isMultiline: true,
+                        maxLines: 3,
                         onChanged: (alamat) {
                           _alamat = alamat;
                         },
-                        icon: FontAwesomeIcons.locationDot,
                       ),
-                      RoundedInputField(
-                          width: size.width * 0.9,
-                          icon: FontAwesomeIcons.noteSticky,
-                          hintText: 'Keperluan',
-                          onChanged: (keperluan) {
-                            _keperluan = keperluan;
-                          }),
-                      RoundedInputField(
-                        width: size.width * 0.9,
-                        icon: FontAwesomeIcons.phone,
+                      
+                      // Keperluan
+                      ModernInputField(
+                        hintText: 'Keperluan',
+                        icon: Icons.note,
+                        isMultiline: true,
+                        maxLines: 2,
+                        onChanged: (keperluan) {
+                          _keperluan = keperluan;
+                        },
+                      ),
+                      
+                      // Telepon
+                      ModernInputField(
+                        hintText: 'Nomor Telepon',
+                        icon: Icons.phone,
+                        keyboardType: TextInputType.phone,
                         onChanged: (telepon) {
                           _telepon = telepon;
                         },
-                        hintText: 'Telepon',
                       ),
-                      _foto == null
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Upload Identitas ?',
-                                    style: TextStyle(color: Colors.grey[800]),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            getImage(ImageSource.camera);
-                                          },
-                                          icon: const FaIcon(
-                                            FontAwesomeIcons.camera,
-                                            color: Colors.red,
-                                          )),
-                                      const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "|",
-                                          style: TextStyle(color: Colors.red),
-                                        ),
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            getImage(ImageSource.gallery);
-                                          },
-                                          icon: const FaIcon(
-                                            FontAwesomeIcons.image,
-                                            color: Colors.red,
-                                          )),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                          : GestureDetector(
-                              onDoubleTap: () {
-                                setState(() {
-                                  _foto = null;
-                                });
-                              },
-                              child: Image.file(
-                                _foto!,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
-                                errorBuilder: (context, error, stactTrace) {
-                                  return Container(
-                                    color: Colors.grey,
-                                    width: 100,
-                                    height: 100,
-                                    child: const Center(
-                                      child: Text('Error load image',
-                                          textAlign: TextAlign.center),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                      RoundedButton(
-                          text: 'Kirim',
-                          color: Colors.red.shade800,
-                          press: () async {
-                            var response = await upload();
-                            print(response);
-                            if (!isLoading && isSuccess) {
-                              print(_noVisitor);
-                              print(_namaTamu);
-                              print(_telepon);
-                              print(_alamat);
-                              print(_keperluan);
-                              print(_foto);
-                              Get.snackbar('Berhasil!', 'Tamu Check-In.',
-                                  backgroundColor: Colors.white);
-                              //return Get.back();
-                            } else {
-                              //Get.back();
-                              Get.snackbar(
-                                  'Gagal', 'Tambahkan foto terlebih dahulu!',
-                                  backgroundColor: Colors.white);
-                            }
-                          })
+                      const SizedBox(height: 20),
+                      
+                      // Image Picker
+                      ModernImagePicker(
+                        title: 'Foto Identitas',
+                        imageFile: _foto,
+                        onCameraTap: () {
+                          getImage(ImageSource.camera);
+                        },
+                        onGalleryTap: () {
+                          getImage(ImageSource.gallery);
+                        },
+                      ),
+                      
+                      const SizedBox(height: 24),
+                      
+                      // Submit Button
+                      ModernButton(
+                        text: 'Kirim Data Tamu',
+                        icon: Icons.send,
+                        isLoading: isLoading,
+                        gradient: primaryGradient,
+                        onPressed: () async {
+                          if (_foto == null) {
+                            Get.snackbar(
+                              'Peringatan',
+                              'Tambahkan foto identitas terlebih dahulu!',
+                              backgroundColor: errorColor.withOpacity(0.1),
+                              colorText: errorColor,
+                            );
+                            return;
+                          }
+                          
+                          var response = await upload();
+                          print(response);
+                          if (!isLoading && isSuccess) {
+                            Get.snackbar(
+                              'Berhasil!',
+                              'Data tamu berhasil disimpan.',
+                              backgroundColor: successColor.withOpacity(0.1),
+                              colorText: successColor,
+                            );
+                            // Reset form
+                            setState(() {
+                              _foto = null;
+                              _noVisitor = '';
+                              _namaTamu = '';
+                              _telepon = '';
+                              _alamat = '';
+                              _keperluan = '';
+                            });
+                          } else {
+                            Get.snackbar(
+                              'Gagal',
+                              'Terjadi kesalahan saat menyimpan data.',
+                              backgroundColor: errorColor.withOpacity(0.1),
+                              colorText: errorColor,
+                            );
+                          }
+                        },
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
-          Positioned(
-            bottom: 30,
-            right: 30,
-            child: FloatingActionButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: FaIcon(FontAwesomeIcons.arrowLeft),
-            ),
-          )
-        ],
-      ),
-    );
+        ),
+      );
   }
 }
 

@@ -30,18 +30,18 @@ class _ListAbsensiState extends State<ListAbsensi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Absensi Hari Ini"),
+        title: const Text("Absensi Hari Ini"),
         actions: [
           IconButton(
               onPressed: () {
-                Get.off(() => SelectAbsensi());
+                Get.off(() => const SelectAbsensi());
               },
-              icon: FaIcon(FontAwesomeIcons.plus))
+              icon: const FaIcon(FontAwesomeIcons.plus))
         ],
       ),
       body: Stack(
         children: [
-          CustomBackground(),
+          const CustomBackground(),
           FutureBuilder<List<ListAbsenModel>>(
               future: getData(),
               builder: (context, snapshot) {
@@ -49,10 +49,10 @@ class _ListAbsensiState extends State<ListAbsensi> {
                   return const Center(
                     child: Text('An error has occurred!'),
                   );
-                } else if (snapshot.hasData && snapshot.data!.length > 0) {
+                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                   return AbsenList(listAbsen: snapshot.data!);
                 } else if (snapshot.data == null) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else {
                   return const Center(
                     child: Text(
@@ -100,8 +100,8 @@ class AbsenList extends StatelessWidget {
         itemBuilder: (context, index) {
           ListAbsenModel data = listAbsen[index];
           return Container(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            margin: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(2), color: Colors.white),
             child: Padding(
@@ -111,31 +111,31 @@ class AbsenList extends StatelessWidget {
                 children: [
                   Text(
                     data.name,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Chip(
                           padding:
-                              EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                              const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
                           backgroundColor:
                               statusColor[int.parse(data.attStatus)],
                           label: Text(
                             data.keterangan,
-                            style: TextStyle(fontSize: 10, color: Colors.white),
+                            style: const TextStyle(fontSize: 10, color: Colors.white),
                           )),
                       int.parse(data.hours) > 0
                           ? Chip(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 0),
                               backgroundColor: Colors.grey,
                               label: Text(
-                                data.hours + ' jam',
-                                style: TextStyle(
+                                '${data.hours} jam',
+                                style: const TextStyle(
                                     fontSize: 10, color: Colors.white),
                               ))
-                          : SizedBox()
+                          : const SizedBox()
                     ],
                   )
                 ],

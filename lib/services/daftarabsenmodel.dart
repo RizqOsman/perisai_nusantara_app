@@ -5,7 +5,7 @@ class ListAbsenService {
   static Future<List<ListAbsenModel>> get(String param) async {
     try {
       final response = await http.get(Uri.parse(
-          "https://hris.tpm-facility.com/attendance/listabsenidsite/" + param));
+          "https://hris.tpm-facility.com/attendance/listabsenidsite/$param"));
       if (200 == response.statusCode) {
         final List<ListAbsenModel> data = listAbsenModelFromJson(response.body);
         return data;

@@ -28,8 +28,8 @@ mkdir -p database
 
 # Run the application
 echo "🌟 Starting FastAPI server..."
-echo "📍 Server will be available at: http://localhost:8000"
-echo "📚 API Documentation: http://localhost:8000/docs"
+echo "📍 Server will be available at: http://172.15.1.21:8000"
+echo "📚 API Documentation: http://172.15.1.21:8000/docs"
 echo ""
 echo "Press Ctrl+C to stop the server"
 echo ""

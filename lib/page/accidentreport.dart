@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:perisai_nusantara_app/page/components/background.dart';
 import 'package:perisai_nusantara_app/page/components/roundedbutton.dart';
 import 'package:perisai_nusantara_app/page/components/roundedinputfield.dart';
@@ -46,14 +45,14 @@ class _AccidentReportState extends State<AccidentReport> {
   }
 
   Future postUpload() async {
-    var stream = new http.ByteStream(_image!.openRead());
+    var stream = http.ByteStream(_image!.openRead());
     stream.cast();
     var length = await _image!.length();
     var url =
-        Uri.parse('https://hris.tpm-facility.com/attendance/uploadaccident');
-    var request = new http.MultipartRequest("POST", url);
+        Uri.parse('http://172.15.1.21:8000/accident-report');
+    var request = http.MultipartRequest("POST", url);
     var multipartFile =
-        new http.MultipartFile("image", stream, length, filename: 'x.jpg');
+        http.MultipartFile("image", stream, length, filename: 'x.jpg');
 
     request.files.add(multipartFile);
     request.fields['nikreporter'] = nik;
@@ -85,18 +84,18 @@ class _AccidentReportState extends State<AccidentReport> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Laporan Visitor'),
+        title: const Text('Laporan Visitor'),
       ),
       body: Stack(
         children: [
-          CustomBackground(),
+          const CustomBackground(),
           SingleChildScrollView(
             child: Column(
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 0),
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 0),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white),
@@ -144,12 +143,12 @@ class _AccidentReportState extends State<AccidentReport> {
                                           onPressed: () {
                                             getImage(ImageSource.camera);
                                           },
-                                          icon: FaIcon(
+                                          icon: const FaIcon(
                                             FontAwesomeIcons.camera,
                                             color: Colors.red,
                                           )),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                      const Padding(
+                                        padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           "|",
                                           style: TextStyle(color: Colors.red),
@@ -159,7 +158,7 @@ class _AccidentReportState extends State<AccidentReport> {
                                           onPressed: () {
                                             getImage(ImageSource.gallery);
                                           },
-                                          icon: FaIcon(
+                                          icon: const FaIcon(
                                             FontAwesomeIcons.image,
                                             color: Colors.red,
                                           )),
@@ -184,7 +183,7 @@ class _AccidentReportState extends State<AccidentReport> {
                                     width: 100,
                                     height: 100,
                                     child: const Center(
-                                      child: const Text('Error load image',
+                                      child: Text('Error load image',
                                           textAlign: TextAlign.center),
                                     ),
                                   );
@@ -244,8 +243,8 @@ class BigTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       width: MediaQuery.of(context).size.width * 0.9,
       height: MediaQuery.of(context).size.height * 0.1,
       decoration: BoxDecoration(
@@ -257,7 +256,7 @@ class BigTextField extends StatelessWidget {
           autocorrect: false,
           keyboardType: TextInputType.multiline,
           maxLines: null,
-          decoration: new InputDecoration.collapsed(
+          decoration: InputDecoration.collapsed(
             hintText: hint,
           )),
     );

@@ -35,12 +35,12 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width * 0.7,
-          padding: EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 20),
+          padding: const EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 20),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
               ]),
@@ -49,17 +49,17 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             children: <Widget>[
               Text(
                 widget.title,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Text(
                 widget.descriptions,
-                style: TextStyle(fontSize: 12, fontFamily: 'Times New Roman'),
+                style: const TextStyle(fontSize: 12, fontFamily: 'Times New Roman'),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 22,
               ),
               Align(

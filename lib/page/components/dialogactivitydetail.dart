@@ -25,28 +25,28 @@ class DialogActivityDetail extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 20),
-          margin: EdgeInsets.only(top: 45),
+          padding: const EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 20),
+          margin: const EdgeInsets.only(top: 45),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
               ]),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
+              const Text(
                 "Detail Aktifitas",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -56,8 +56,8 @@ class DialogActivityDetail extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Oleh: " + name),
-                          SizedBox(
+                          Text("Oleh: $name"),
+                          const SizedBox(
                             height: 8,
                           ),
                           Text(activity),
@@ -65,8 +65,7 @@ class DialogActivityDetail extends StatelessWidget {
                       ),
                     ),
                     Image.network(
-                        'https://hris.tpm-facility.com/assets/imagesofgms/activities/' +
-                            image)
+                        'https://hris.tpm-facility.com/assets/imagesofgms/activities/$image')
                   ],
                 ),
               )

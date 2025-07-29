@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class AuthService {
   static Future<UserAuth?> fetchData(String email, String password) async {
     final response = await http.post(
-        Uri.parse('http://192.168.1.12:5000/login-anggota'),
+        Uri.parse('http://172.15.1.21:8000/login-anggota'),
         body: {'email': email, 'password': password});
 
     if (response.statusCode == 200) {

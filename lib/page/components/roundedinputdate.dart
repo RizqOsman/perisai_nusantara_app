@@ -12,7 +12,7 @@ class RoundedInputDate extends StatefulWidget {
   final String hintText;
   final double width;
 
-  RoundedInputDate(
+  const RoundedInputDate(
       {Key? key,
       required this.hintText,
       // required this.focusNode,
@@ -71,7 +71,7 @@ class _RoundedInputDateState extends State<RoundedInputDate> {
     super.dispose();
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
@@ -81,7 +81,7 @@ class _RoundedInputDateState extends State<RoundedInputDate> {
 
     if (pickedDate != null && pickedDate != _selectedDate) {
       _selectedDate = pickedDate;
-      var formatter = new DateFormat('yyyy-MM-dd');
+      var formatter = DateFormat('yyyy-MM-dd');
 
       // _controllerDate.text = _dateFormat.format(_selectedDate);
       _controllerDate.text = formatter.format(_selectedDate);

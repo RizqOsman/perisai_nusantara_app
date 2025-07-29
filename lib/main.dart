@@ -29,9 +29,9 @@ class MyApp extends StatelessWidget {
         future: isLoggedIn(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Home();
+            return const Home();
           } else {
-            return Login();
+            return const Login();
           }
         },
       ),

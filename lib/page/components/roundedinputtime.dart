@@ -6,7 +6,7 @@ class RoundedInputTime extends StatefulWidget {
   final double width;
   final ValueChanged<String> onTimeChanged;
 
-  RoundedInputTime(
+  const RoundedInputTime(
       {Key? key,
       required this.hintText,
       required this.onTimeChanged,
@@ -26,9 +26,7 @@ class _RoundedInputTimeState extends State<RoundedInputTime> {
   void initState() {
     super.initState();
     _controllerTime = TextEditingController();
-    _controllerTime.text = DateTime.now().hour.toString() +
-        ' : ' +
-        DateTime.now().minute.toString();
+    _controllerTime.text = '${DateTime.now().hour} : ${DateTime.now().minute}';
   }
 
   @override
@@ -53,7 +51,7 @@ class _RoundedInputTimeState extends State<RoundedInputTime> {
     );
   }
 
-  Future<Null> _selectTime(BuildContext context) async {
+  Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime,
@@ -64,14 +62,15 @@ class _RoundedInputTimeState extends State<RoundedInputTime> {
         );
       },
     );
-    if (picked != null)
+    if (picked != null) {
       setState(() {
         selectedTime = picked;
         _hour = selectedTime.hour.toString();
         _minute = selectedTime.minute.toString();
-        _time = _hour + ':' + _minute;
+        _time = '$_hour:$_minute';
         _controllerTime.text = _time;
         widget.onTimeChanged(_controllerTime.text);
       });
+    }
   }
 }

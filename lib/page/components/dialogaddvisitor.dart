@@ -21,7 +21,7 @@ class DialogTambahTamuState extends State<DialogTambahTamu> {
     content['counts'] = counts;
     print(content);
     return await http.post(
-      Uri.https('http://192.168.1.12:5000', '/daftar-tamu'),
+      Uri.https('172.15.1.21:8000', '/daftar-tamu'),
       body: content,
     );
   }
@@ -80,14 +80,14 @@ class DialogTambahTamuState extends State<DialogTambahTamu> {
                     autocorrect: false,
                     autofocus: true,
                     keyboardType: TextInputType.number,
-                    decoration: new InputDecoration.collapsed(
+                    decoration: const InputDecoration.collapsed(
                       hintText: "",
                     )),
               ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.send,
                     color: Colors.blue,
                   ),

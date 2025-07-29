@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class LaporanServices {
   static Future<List<LaporanModel>> getData() async {
     final response =
-        await http.get(Uri.parse('http://192.168.1.12:5000/laporan'));
+        await http.get(Uri.parse('http://172.15.1.21:8000/laporan'));
 
     return compute(parseData, response.body);
   }

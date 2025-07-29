@@ -2,9 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:perisai_nusantara_app/services/bukupaketservice.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 import 'package:perisai_nusantara_app/page/components/background.dart';
@@ -52,7 +50,7 @@ class _BukuPaketState extends State<BukuPaket> {
     stream.cast();
     var length = await _foto!.length();
     // Uri.parse = Mengikuti IP Address dari bawaan device || ipv4 used
-    var url = Uri.parse('http://192.168.1.12:5000/daftar-tamu:foto');
+    var url = Uri.parse('http://172.15.1.21:8000/daftar-paket');
     var request = http.MultipartRequest("POST", url);
     var multipartFile =
         http.MultipartFile("image", stream, length, filename: 'x.jpg');

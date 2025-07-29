@@ -26,11 +26,11 @@ class _SelectAbsensiState extends State<SelectAbsensi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pilih Anggota'),
+        title: const Text('Pilih Anggota'),
       ),
       body: Stack(
         children: [
-          CustomBackground(),
+          const CustomBackground(),
           FutureBuilder<List<ListMemberModel>>(
             future: MemberService.get(idsite),
             builder: (context, snapshot) {
@@ -38,10 +38,10 @@ class _SelectAbsensiState extends State<SelectAbsensi> {
                 return const Center(
                   child: Text('An error has occurred!'),
                 );
-              } else if (snapshot.hasData && snapshot.data!.length > 0) {
+              } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 return MemberList(selectSession: snapshot.data!);
               } else {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
             },
           )
@@ -75,15 +75,15 @@ class _MemberListState extends State<MemberList> {
                       child: DropdownSelectAbsensi(nik: data.nik)));
             },
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              margin: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5), color: Colors.white),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   data.name,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -130,7 +130,7 @@ class _DropdownSelectAbsensiState extends State<DropdownSelectAbsensi> {
           return const Center(
             child: Text('An error has occurred!'),
           );
-        } else if (snapshot.hasData && snapshot.data!.length > 0) {
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           return Column(
             children: [
               RoundedDropdown(
@@ -139,11 +139,11 @@ class _DropdownSelectAbsensiState extends State<DropdownSelectAbsensi> {
                   // icon: Icons.timelapse,
                   items: snapshot.data!.map((item) {
                     return DropdownMenuItem(
+                      value: int.parse(item.id),
                       child: Text(
                         item.keterangan,
                         style: TextStyle(fontSize: 12),
                       ),
-                      value: int.parse(item.id),
                     );
                   }).toList(),
                   onChanged: (int? value) {
@@ -197,13 +197,13 @@ class _DropdownSelectAbsensiState extends State<DropdownSelectAbsensi> {
                     alignment: Alignment.center,
                     child: Text(
                       DateFormat('dd/MM/yyyy kk:mm').format(now),
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey),
                     )),
               ),
             ],
           );
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

@@ -76,8 +76,8 @@ def start_server():
             process = subprocess.Popen(activate_cmd, shell=True, preexec_fn=os.setsid)
         
         print("✅ Server started in background")
-        print("📍 Server URL: http://localhost:8000")
-        print("📚 API Docs: http://localhost:8000/docs")
+        print("📍 Server URL: http://172.15.1.21:8000")
+        print("📚 API Docs: http://172.15.1.21:8000/docs")
         
         return process
     except Exception as e:
@@ -90,7 +90,7 @@ def wait_for_server():
     max_attempts = 30
     for i in range(max_attempts):
         try:
-            response = requests.get("http://localhost:8000/", timeout=5)
+            response = requests.get("http://172.15.1.21:8000/", timeout=5)
             if response.status_code == 200:
                 print("✅ Server is ready!")
                 return True
@@ -109,7 +109,7 @@ def initialize_database():
     print("🗄️  Initializing database...")
     
     try:
-        response = requests.post("http://localhost:8000/init-db", timeout=10)
+        response = requests.post("http://172.15.1.21:8000/init-db", timeout=10)
         if response.status_code == 200:
             print("✅ Database initialized")
             return True
@@ -200,9 +200,9 @@ def main():
     print("✅ API tests completed")
     
     print("\n🔗 Useful URLs:")
-    print("📍 Server: http://localhost:8000")
-    print("📚 API Docs: http://localhost:8000/docs")
-    print("📖 ReDoc: http://localhost:8000/redoc")
+    print("📍 Server: http://172.15.1.21:8000")
+    print("📚 API Docs: http://172.15.1.21:8000/docs")
+    print("📖 ReDoc: http://172.15.1.21:8000/redoc")
     
     print("\n👤 Sample Login:")
     print("📧 Email: admin@perisai.com")
@@ -210,7 +210,7 @@ def main():
     
     print("\n🛠️  Next Steps:")
     print("1. Open your Flutter app")
-    print("2. Update the API base URL to: http://localhost:8000")
+    print("2. Update the API base URL to: http://172.15.1.21:8000")
     print("3. Test the login functionality")
     print("4. Start using the app!")
     

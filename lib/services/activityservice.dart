@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class ActivityServices {
   static Future<List<AcitivityModel>> getData() async {
     final response =
-        await http.get(Uri.parse('http://192.168.1.12:5000/aktifitas'));
+        await http.get(Uri.parse('http://172.15.1.21:8000/activity'));
 
     return compute(parseData, response.body);
   }

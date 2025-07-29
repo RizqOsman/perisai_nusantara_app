@@ -40,7 +40,7 @@ class _CheckPointPageState extends State<CheckPointPage> {
                 title: 'Scanning ...',
                 descriptions: 'Tempelkan pada Tag NFC',
                 textButton: TextButton(
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                   onPressed: () {
                     NfcManager.instance.stopSession();
                     Get.back();
@@ -55,7 +55,7 @@ class _CheckPointPageState extends State<CheckPointPage> {
                 title: 'Ooops! ...',
                 descriptions: "Pastikan fitur NFC aktif pada perangkat anda",
                 textButton: TextButton(
-                  child: Text('Ok'),
+                  child: const Text('Ok'),
                   onPressed: () {
                     Get.back();
                     // Get.offAll(Home());
@@ -106,6 +106,12 @@ class _CheckPointPageState extends State<CheckPointPage> {
         context: context,
         builder: (context) => CustomDialogContainer(
               title: "Berikan keterangan",
+              textButton: TextButton(
+                onPressed: () {
+                  postCheckPoint();
+                },
+                child: const Text("Kirim"),
+              ),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -125,12 +131,6 @@ class _CheckPointPageState extends State<CheckPointPage> {
                     decoration: new InputDecoration.collapsed(
                       hintText: "",
                     )),
-              ),
-              textButton: TextButton(
-                onPressed: () {
-                  postCheckPoint();
-                },
-                child: Text("Kirim"),
               ),
             ));
   }
@@ -160,39 +160,39 @@ class _CheckPointPageState extends State<CheckPointPage> {
     return Scaffold(
       body: Stack(
         children: [
-          CustomBackground(),
+          const CustomBackground(),
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.all(20),
-                  margin: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     borderRadius:
-                        BorderRadius.only(topRight: Radius.circular(40)),
+                        const BorderRadius.only(topRight: Radius.circular(40)),
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
                         spreadRadius: 5,
                         blurRadius: 4,
-                        offset: Offset(0, 3), // changes position of shadow
+                        offset: const Offset(0, 3), // changes position of shadow
                       ),
                     ],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Check Point Patroli',
                         style: TextStyle(
                             fontSize: 25,
                             // color: Colors.black,
                             fontWeight: FontWeight.bold),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12),
                         child: Text(
                           "klik tombol 'tambah' untuk menambahkan patroli hari ini",
                           style: TextStyle(fontSize: 12),
@@ -207,9 +207,9 @@ class _CheckPointPageState extends State<CheckPointPage> {
                     ],
                   ),
                 ),
-                Center(
+                const Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 18),
+                    padding: EdgeInsets.only(top: 18),
                     child: Text(
                       "Daftar Patroli Hari Ini:",
                       style: TextStyle(
@@ -220,7 +220,7 @@ class _CheckPointPageState extends State<CheckPointPage> {
                 Expanded(
                   child: Container(
                     // padding: EdgeInsets.all(20),
-                    margin: EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(15),
                     child: FutureBuilder<List<ListCheckPointModel>>(
                       future: ListCheckPointService.get(session.read('idsite')),
                       builder: (context, snapshot) {
@@ -229,10 +229,10 @@ class _CheckPointPageState extends State<CheckPointPage> {
                             child: Text('An error has occurred!'),
                           );
                         } else if (snapshot.hasData &&
-                            snapshot.data!.length > 0) {
+                            snapshot.data!.isNotEmpty) {
                           return CheckPointList(checkpoints: snapshot.data!);
                         } else {
-                          return Center(
+                          return const Center(
                             child: Text(
                               'Tambahkan checkpoint untuk hari ini.',
                               style: TextStyle(color: Colors.white38),
@@ -263,8 +263,8 @@ class CheckPointList extends StatelessWidget {
         itemBuilder: (context, index) {
           ListCheckPointModel data = checkpoints[index];
           return Container(
-            margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5), color: Colors.white),
             child: Row(
@@ -275,7 +275,7 @@ class CheckPointList extends StatelessWidget {
                   FontAwesomeIcons.circle,
                   color: (data.isclear == "1") ? Colors.blue : Colors.red,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Column(
@@ -285,17 +285,14 @@ class CheckPointList extends StatelessWidget {
                     Text(
                       data.location,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Text("oleh " +
-                        data.name +
-                        " pada " +
-                        DateFormat('kk:mm').format(data.currentdatetime)),
+                    Text("oleh ${data.name} pada ${DateFormat('kk:mm').format(data.currentdatetime)}"),
                     data.desc == null
-                        ? SizedBox()
+                        ? const SizedBox()
                         : Text(
-                            "ket: " + data.desc!,
-                            style: TextStyle(fontStyle: FontStyle.italic),
+                            "ket: ${data.desc!}",
+                            style: const TextStyle(fontStyle: FontStyle.italic),
                           ),
                   ],
                 )

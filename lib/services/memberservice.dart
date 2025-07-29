@@ -5,7 +5,7 @@ class MemberService {
   static Future<List<ListMemberModel>> get(String param) async {
     try {
       final response = await http.get(Uri.parse(
-          "https://hris.tpm-facility.com/attendance/listmember/" + param));
+          "https://hris.tpm-facility.com/attendance/listmember/$param"));
       if (200 == response.statusCode) {
         final List<ListMemberModel> data =
             listMemberModelFromJson(response.body);

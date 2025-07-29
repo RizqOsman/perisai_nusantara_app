@@ -81,9 +81,9 @@ def start_server():
         python_cmd = "venv/bin/python"
     
     try:
-        print("📍 Server will be available at: http://localhost:8000")
-        print("📚 API Documentation: http://localhost:8000/docs")
-        print("📖 ReDoc: http://localhost:8000/redoc")
+        print("📍 Server will be available at: http://172.15.1.21:8000")
+        print("📚 API Documentation: http://172.15.1.21:8000/docs")
+        print("📖 ReDoc: http://172.15.1.21:8000/redoc")
         print("\n⏳ Starting server... (Press Ctrl+C to stop)")
         print("-" * 60)
         

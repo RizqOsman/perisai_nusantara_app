@@ -27,7 +27,7 @@ class _RoundedDropdownState extends State<RoundedDropdown> {
     //FocusScope.of(context).requestFocus(new FocusNode());
     return TextFieldContainer(
       child: InputDecorator(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
         ),
         child: DropdownButtonHideUnderline(

@@ -258,10 +258,10 @@ pip install -r requirements.txt --force-reinstall
 ### Testing
 ```bash
 # Test API dengan curl
-curl -X GET "http://localhost:8000/"
+curl -X GET "http://172.15.1.21:8000/"
 
 # Test login
-curl -X POST "http://localhost:8000/login-anggota" \
+curl -X POST "http://172.15.1.21:8000/login-anggota" \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@perisai.com","password":"admin123"}'
 ```
@@ -285,6 +285,6 @@ curl -X POST "http://localhost:8000/login-anggota" \
 ## Support
 
 Untuk bantuan lebih lanjut:
-1. Cek dokumentasi API di http://localhost:8000/docs
+1. Cek dokumentasi API di http://172.15.1.21:8000/docs
 2. Lihat log server untuk error details
 3. Pastikan semua dependencies terinstall dengan benar 

@@ -25,9 +25,9 @@ def update_flutter_urls():
     
     # URL mappings
     url_mappings = {
-        r'http://192\.168\.1\.12:5000': 'http://localhost:8000',
-        r'https://hris\.tpm-facility\.com': 'http://localhost:8000',
-        r'https://637db38316c1b892ebd275c5\.mockapi\.io/databook/kontak_darurat': 'http://localhost:8000/emergency-contact'
+        r'http://192\.168\.1\.12:5000': 'http://172.15.1.21:8000',
+        r'https://hris\.tpm-facility\.com': 'http://172.15.1.21:8000',
+        r'https://637db38316c1b892ebd275c5\.mockapi\.io/databook/kontak_darurat': 'http://172.15.1.21:8000/emergency-contact'
     }
     
     print("🔄 Updating Flutter URLs to use local backend...")

@@ -1,3 +1,6 @@
+perisai_nusantara_app/Backend/venv
+node_modules
+
 # Miscellaneous
 *.class
 *.log

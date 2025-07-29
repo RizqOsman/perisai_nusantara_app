@@ -7,7 +7,7 @@ import requests
 import json
 from datetime import datetime
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://172.15.1.21:8000"
 
 def init_database():
     """Initialize database with sample data"""
@@ -23,7 +23,7 @@ def init_database():
             print("❌ Server is not responding")
             return
     except requests.exceptions.ConnectionError:
-        print("❌ Cannot connect to server. Make sure the server is running on http://localhost:8000")
+        print("❌ Cannot connect to server. Make sure the server is running on http://172.15.1.21:8000")
         return
     
     # Initialize database

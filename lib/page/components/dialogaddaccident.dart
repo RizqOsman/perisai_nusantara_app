@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:perisai_nusantara_app/page/home.dart';
 
 class DialogAddActivity extends StatefulWidget {
+  const DialogAddActivity({super.key});
+
   @override
   DialogAddActivityState createState() => DialogAddActivityState();
 }
@@ -41,28 +43,28 @@ class DialogAddActivityState extends State<DialogAddActivity> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 20),
-          margin: EdgeInsets.only(top: 45),
+          padding: const EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 20),
+          margin: const EdgeInsets.only(top: 45),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
               ]),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
+              const Text(
                 "Tambah Aktifitas",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: MediaQuery.of(context).size.height * 0.1,
                 decoration: BoxDecoration(
@@ -77,20 +79,20 @@ class DialogAddActivityState extends State<DialogAddActivity> {
                     autofocus: true,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    decoration: new InputDecoration.collapsed(
+                    decoration: const InputDecoration.collapsed(
                       hintText: "",
                     )),
               ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.send,
                     color: Colors.blue,
                   ),
                   onPressed: () {
                     _postMessage();
-                    Get.off(Home());
+                    Get.off(const Home());
                     Get.snackbar("Berhasil!", "Aktifitas ditambahkan");
                   },
                 ),

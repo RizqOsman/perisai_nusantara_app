@@ -27,7 +27,7 @@ class _ActivitiesState extends State<Activities> {
               onPressed: () {
                 showDialog(
                     context: context,
-                    builder: (context) => DialogAddActivity());
+                    builder: (context) => const DialogAddActivity());
               },
               icon: const FaIcon(FontAwesomeIcons.plus))
         ],
@@ -79,18 +79,17 @@ class ActivityList extends StatelessWidget {
                       activity: data.activity,
                     )),
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 3),
-              margin: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 3),
+              margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5), color: Colors.white),
               child: Column(
                 children: [
                   Text(
                     data.activity,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text('ditambahkan pada ' +
-                      DateFormat('kk:mm').format(data.datetime))
+                  Text('ditambahkan pada ${DateFormat('kk:mm').format(data.datetime)}')
                 ],
               ),
             ),

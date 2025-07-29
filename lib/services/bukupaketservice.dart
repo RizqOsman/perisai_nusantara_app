@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class BukuPaketService {
   static Future<List<BukuPaketModel>> getData(String idPaket) async {
     final response =
-        await http.post(Uri.parse('http://192.168.1.12:5000/daftar-paket'));
+        await http.post(Uri.parse('http://172.15.1.21:8000/daftar-paket'));
 
     debugPrint('apipaket1 $response.body');
     return compute(parseData, response.body);

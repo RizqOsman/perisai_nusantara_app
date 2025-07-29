@@ -22,7 +22,7 @@ Future postTag(String nfcid, String tagid) async {
 }
 
 class SetTag extends StatefulWidget {
-  SetTag({Key? key}) : super(key: key);
+  const SetTag({Key? key}) : super(key: key);
 
   @override
   State<SetTag> createState() => _SetTagState();
@@ -32,10 +32,10 @@ class _SetTagState extends State<SetTag> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Daftar ID Tag")),
+      appBar: AppBar(title: const Text("Daftar ID Tag")),
       body: Stack(
         children: [
-          CustomBackground(),
+          const CustomBackground(),
           FutureBuilder<List<ListTagsModel>>(
               future: ListTagService.get(),
               builder: (context, snapshot) {
@@ -43,10 +43,10 @@ class _SetTagState extends State<SetTag> {
                   return const Center(
                     child: Text('An error has occurred!'),
                   );
-                } else if (snapshot.hasData && snapshot.data!.length > 0) {
+                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                   return TagList(listTag: snapshot.data!);
                 } else if (snapshot.data == null) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.data!.isEmpty) {
                   return const Center(
                     child: Text('Belum ada tag!',
@@ -93,7 +93,7 @@ class _TagListState extends State<TagList> {
                 title: 'Scanning ...',
                 descriptions: 'Tempelkan pada Tag NFC',
                 textButton: TextButton(
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                   onPressed: () {
                     NfcManager.instance.stopSession();
                     Get.back();
@@ -107,7 +107,7 @@ class _TagListState extends State<TagList> {
                 title: 'Ooops! ...',
                 descriptions: "Pastikan fitur NFC aktif pada perangkat anda",
                 textButton: TextButton(
-                  child: Text('Ok'),
+                  child: const Text('Ok'),
                   onPressed: () {
                     Get.back();
                   },
@@ -123,8 +123,8 @@ class _TagListState extends State<TagList> {
         itemBuilder: (context, index) {
           ListTagsModel data = widget.listTag[index];
           return Container(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            margin: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(2), color: Colors.white),
             child: Padding(
@@ -138,11 +138,11 @@ class _TagListState extends State<TagList> {
                     children: [
                       Text(
                         data.label,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         data.site,
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ],
                   ),
@@ -152,19 +152,19 @@ class _TagListState extends State<TagList> {
                     },
                     child: data.tagid == null
                         ? Chip(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 0),
                             backgroundColor: Colors.red[700],
-                            label: Text(
+                            label: const Text(
                               "scan tag",
                               style:
                                   TextStyle(fontSize: 10, color: Colors.white),
                             ))
                         : Chip(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 0),
                             backgroundColor: Colors.red[300],
-                            label: Text(
+                            label: const Text(
                               "update",
                               style:
                                   TextStyle(fontSize: 10, color: Colors.white),
