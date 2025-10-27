@@ -10,7 +10,7 @@
 | `lib/page/bukutamu.dart` | `http://192.168.1.12:5000/daftar-tamu` | `http://172.15.1.21:8000/daftar-tamu` |
 | `lib/page/bukupaket.dart` | `http://192.168.1.12:5000/daftar-tamu:foto` | `http://172.15.1.21:8000/daftar-paket` |
 | `lib/page/home.dart` | `''` (empty) | `http://172.15.1.21:8000/attendance` |
-| `lib/page/accidentreport.dart` | `https://hris.tpm-facility.com/attendance/uploadaccident` | `http://172.15.1.21:8000/accident-report` |
+| `lib/page/accidentreport.dart` | `https://172.15.1.21/attendance/uploadaccident` | `http://172.15.1.21:8000/accident-report` |
 | `lib/services/laporanservice.dart` | `http://192.168.1.12:5000/laporan` | `http://172.15.1.21:8000/laporan` |
 | `lib/services/activityservice.dart` | `http://192.168.1.12:5000/aktifitas` | `http://172.15.1.21:8000/activity` |
 | `lib/services/bukutamuservice.dart` | `http://192.168.1.12:5000/daftar-tamu` | `http://172.15.1.21:8000/daftar-tamu` |

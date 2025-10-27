@@ -5,7 +5,7 @@ class ListCheckPointService {
   static Future<List<ListCheckPointModel>> get(String param) async {
     try {
       final response = await http.get(Uri.parse(
-          "https://hris.tpm-facility.com/attendance/listcheckpointidsite/$param"));
+          "https://172.15.1.21/attendance/listcheckpointidsite/$param"));
       if (200 == response.statusCode) {
         final List<ListCheckPointModel> data =
             listCheckPointModelFromJson(response.body);

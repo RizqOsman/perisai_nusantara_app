@@ -5,7 +5,7 @@ class ListAbsensiStatusService {
   static Future<List<ListAbsensiStatus>>? get() async {
     try {
       final response = await http.get(Uri.parse(
-          "https://hris.tpm-facility.com/attendance/listabsenstatus"));
+          "https://172.15.1.21/attendance/listabsenstatus"));
       if (200 == response.statusCode) {
         final List<ListAbsensiStatus> data =
             listAbsensiStatusFromJson(response.body);

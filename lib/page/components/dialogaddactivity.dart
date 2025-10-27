@@ -28,7 +28,7 @@ class DialogAddActivityState extends State<DialogAddActivity> {
   //   content['activity'] = activity;
   //   print(content);
   //   return await http.post(
-  //     Uri.https('hris.tpm-facility.com', 'attendance/addactivities'),
+  //     Uri.https('172.15.1.21', 'attendance/addactivities'),
   //     body: content,
   //   );
   // }

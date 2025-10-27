@@ -65,7 +65,7 @@ class DialogActivityDetail extends StatelessWidget {
                       ),
                     ),
                     Image.network(
-                        'https://hris.tpm-facility.com/assets/imagesofgms/activities/$image')
+                        'https://172.15.1.21/assets/imagesofgms/activities/$image')
                   ],
                 ),
               )

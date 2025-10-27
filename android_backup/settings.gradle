@@ -1,0 +1,15 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven {
+            url "${settingsDir}/../build/host/outputs/repo"
+        }
+        maven {
+            url "https://storage.googleapis.com/download.flutter.io"
+        }
+    }
+}
+
+include ':app'

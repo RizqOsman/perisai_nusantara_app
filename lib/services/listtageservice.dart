@@ -5,7 +5,7 @@ class ListTagService {
   static Future<List<ListTagsModel>>? get() async {
     try {
       final response = await http
-          .get(Uri.parse("https://hris.tpm-facility.com/attendance/listtags"));
+          .get(Uri.parse("https://172.15.1.21/attendance/listtags"));
       if (200 == response.statusCode) {
         final List<ListTagsModel> data = listTagsModelFromJson(response.body);
         return data;

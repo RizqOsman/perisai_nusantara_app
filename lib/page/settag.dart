@@ -10,7 +10,7 @@ Future postTag(String nfcid, String tagid) async {
   print(nfcid);
   print(tagid);
   final response = await http.post(
-      Uri.parse('https://hris.tpm-facility.com/attendance/addtag'),
+      Uri.parse('https://172.15.1.21/attendance/addtag'),
       body: {'nfcid': nfcid, 'tagid': tagid});
   if (response.statusCode == 200) {
     Get.back();
@@ -80,9 +80,12 @@ class _TagListState extends State<TagList> {
   void readNFC(String nfcid) async {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
-      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-        tagId = tag.data['nfca']['identifier'].join();
-        NfcManager.instance.stopSession();
+      NfcManager.instance.startSession(
+        pollingOptions: {NfcPollingOption.iso14443},
+        onDiscovered: (NfcTag tag) async {
+          final tagData = tag.data as Map<String, dynamic>;
+          tagId = (tagData['nfca'] as Map<String, dynamic>)['identifier'].join();
+          NfcManager.instance.stopSession();
         Get.back();
         print(tagId);
         postTag(nfcid, tagId);

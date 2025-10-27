@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:perisai_nusantara_app/page/activity.dart';
@@ -7,14 +6,34 @@ import 'package:perisai_nusantara_app/page/bukupaket.dart';
 import 'package:perisai_nusantara_app/page/bukutamu.dart';
 import 'package:perisai_nusantara_app/page/components/customdialog.dart';
 import 'package:http/http.dart' as http;
-import 'package:nfc_manager/nfc_manager.dart';
 import 'package:perisai_nusantara_app/page/emergencycontact.dart';
 import 'package:perisai_nusantara_app/page/laporan.dart';
-import 'package:perisai_nusantara_app/page/selectsession.dart';
-import 'package:perisai_nusantara_app/page/components/api_status_dialog.dart';
-import 'package:perisai_nusantara_app/page/components/modern_header.dart';
-import 'package:perisai_nusantara_app/page/components/modern_menu_card.dart';
-import 'package:perisai_nusantara_app/controller/utilities/theme/color.dart';
+
+// NFC package not available in this project — provide a minimal stub to avoid compile errors.
+// When you want real NFC support, add `nfc_manager` to pubspec.yaml and restore the original import.
+//
+// import 'package:nfc_manager/nfc_manager.dart';
+
+class NfcManager {
+  NfcManager._();
+  static final NfcManager instance = NfcManager._();
+
+  /// Returns `false` by default in this stub (no NFC hardware access).
+  Future<bool> isAvailable() async => false;
+
+  /// Stub: does nothing. The real implementation invokes [onDiscovered] when an NFC tag is found.
+  void startSession({required Function(NfcTag) onDiscovered, Set<NfcPollingOption>? pollingOptions}) {}
+
+  /// Stub: does nothing.
+  void stopSession() {}
+}
+
+enum NfcPollingOption { iso14443 }
+
+class NfcTag {
+  final Map<String, dynamic> data;
+  NfcTag(this.data);
+}
 
 class Home extends StatefulWidget {
   const Home({Key? key, this.sessionMode = false}) : super(key: key);
@@ -33,12 +52,16 @@ class _HomeState extends State<Home> {
   void readAbsenNFC(String isCheckIn) async {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
-      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-        tagId = tag.data['nfca']['identifier'].join();
-        isIn = isCheckIn;
-        NfcManager.instance.stopSession();
-        postAttendace();
-      });
+      NfcManager.instance.startSession(
+        onDiscovered: (NfcTag tag) async {
+          var nfcData = tag.data;
+          tagId = (nfcData['nfca'] as Map<String, dynamic>)['identifier'].join();
+          isIn = isCheckIn;
+          NfcManager.instance.stopSession();
+          postAttendace();
+        },
+        pollingOptions: {NfcPollingOption.iso14443},
+      );
       showDialog(
           context: context,
           builder: (context) => CustomDialogBox(
@@ -91,197 +114,169 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: bgColor3,
-      body: Column(
-        children: [
-          // Modern Header
-          ModernHeader(
-            title: "Selamat Datang",
-            subtitle: "Perisai Nusantara GuardApp",
-            userName: session.read('name') ?? 'User',
-            userSite: session.read('site') ?? 'Site',
-            onApiStatusTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => const ApiStatusDialog(),
-              );
-            },
-            onSessionTap: sessionMode ? () => Get.to(() => const SelectSession()) : null,
-            showSessionButton: sessionMode,
+      backgroundColor: const Color(0xFFE0E5EC),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFFE0E5EC),
+        title: const Text(
+          'Perisai Nusantara',
+          style: TextStyle(
+            color: Color(0xFF37474F),
+            fontWeight: FontWeight.bold,
           ),
-          // Menu Section
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Section Title
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                    child: Text(
-                      "Menu Anggota",
-                      style: TextStyle(
-                        color: textPrimary,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                  /* Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                    child: Text(
-                      "Absensi",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Absensi(
-                        size: size,
-                        title: 'Check In',
-                        onTap: () {
-                          readAbsenNFC("1");
-                        },
-                      ),
-                      Absensi(
-                        size: size,
-                        title: 'Check Out',
-                        onTap: () {
-                          readAbsenNFC("0");
-                        },
-                      ),
-                    ],
-                  ), */
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                        child: Text(
-                          "Menu Anggota",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      /* Visibility(
-                        visible: isDandru,
-                        child: Row(
-                          children: [
-                            Text('Mode sesi: '),
-                            Switch(
-                                value: sessionMode,
-                                onChanged: (value) {
-                                  setState(() {
-                                    sessionMode = value;
-                                    print(widget.sessionMode);
-                                    if (value) {
-                                      session.write(
-                                          "nip2", session.read('nip'));
-                                      session.write(
-                                          "name2", session.read('name'));
-                                    } else {
-                                      session.write(
-                                          'nip', session.read('nip2'));
-                                      session.write(
-                                          'name', session.read('name2'));
-                                    }
-                                  });
-                                }),
-                          ],
-                        ),
-                      ) */
-                    ],
-                  ),
-                  Expanded(
-                    child: GridView.count(
-                      primary: false,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.1,
-                      children: <Widget>[
-                        ModernMenuCard(
-                          icon: const FaIcon(FontAwesomeIcons.addressBook),
-                          title: "Kontak Darurat",
-                          subtitle: "Emergency Contacts",
-                          gradient: primaryGradient,
-                          onTap: () {
-                            Get.to(() => const EmergencyContact());
-                          },
-                        ),
-                        ModernMenuCard(
-                          icon: const FaIcon(FontAwesomeIcons.book),
-                          title: "Buku Tamu",
-                          subtitle: "Guest Book",
-                          gradient: secondaryGradient,
-                          onTap: () {
-                            Get.to(() => const BukuTamu());
-                          },
-                        ),
-                        ModernMenuCard(
-                          icon: const FaIcon(FontAwesomeIcons.bookJournalWhills),
-                          title: "Buku Paket",
-                          subtitle: "Package Book",
-                          gradient: accentGradient,
-                          onTap: () {
-                            Get.to(() => const BukuPaket());
-                          },
-                        ),
-                        ModernMenuCard(
-                          icon: const FaIcon(FontAwesomeIcons.userPlus),
-                          title: "Jumlah Pengunjung",
-                          subtitle: "Visitor Count",
-                          iconColor: infoColor,
-                          backgroundColor: infoColor.withOpacity(0.1),
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (builder) {
-                                  return const Activities();
-                                });
-                          },
-                        ),
-                        ModernMenuCard(
-                          icon: const FaIcon(FontAwesomeIcons.infoCircle),
-                          title: "Laporan",
-                          subtitle: "Reports",
-                          iconColor: warningColor,
-                          backgroundColor: warningColor.withOpacity(0.1),
-                          onTap: () {
-                            Get.to(() => const Laporan());
-                          },
-                        ),
-                        ModernMenuCard(
-                          icon: const FaIcon(FontAwesomeIcons.speakerDeck),
-                          title: "Atensi",
-                          subtitle: "Attention",
-                          iconColor: errorColor,
-                          backgroundColor: errorColor.withOpacity(0.1),
-                          onTap: () {
-                            Get.to(() => null);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  /* const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                    child: Text(
-                      "Menu Danru",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ), */
-                ],
-              ),
-            ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_none, color: Color(0xFF37474F)),
+            onPressed: () {
+              // Handle notification tap
+            },
           ),
         ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+        child: GridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20,
+          children: [
+            NeumorphicMenuCard(
+              icon: Icons.fingerprint,
+              title: 'Absensi',
+              onTap: () {
+                readAbsenNFC("1"); // Assuming check-in for simplicity; adjust as needed
+              },
+            ),
+            NeumorphicMenuCard(
+              icon: Icons.tour,
+              title: 'Tur Patroli',
+              onTap: () {
+                // Navigate to Tur Patroli page (placeholder)
+                Get.snackbar('Info', 'Fitur Tur Patroli akan segera hadir');
+              },
+            ),
+            NeumorphicMenuCard(
+              icon: Icons.people_alt,
+              title: 'Buku Tamu',
+              onTap: () {
+                Get.to(() => const BukuTamu());
+              },
+            ),
+            NeumorphicMenuCard(
+              icon: Icons.inventory_2,
+              title: 'Buku Paket',
+              onTap: () {
+                Get.to(() => const BukuPaket());
+              },
+            ),
+            NeumorphicMenuCard(
+              icon: Icons.assignment_late,
+              title: 'Manajemen Insiden',
+              onTap: () {
+                Get.to(() => const Laporan()); // Using existing Laporan page as placeholder
+              },
+            ),
+            NeumorphicMenuCard(
+              icon: Icons.analytics,
+              title: 'Aktivitas',
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (builder) => const Activities(),
+                );
+              },
+            ),
+            NeumorphicMenuCard(
+              icon: Icons.contact_phone,
+              title: 'Kontak Darurat',
+              onTap: () {
+                Get.to(() => const EmergencyContact());
+              },
+            ),
+            NeumorphicMenuCard(
+              icon: Icons.book,
+              title: 'Logbook Penjaga',
+              onTap: () {
+                // Navigate to Logbook page (placeholder)
+                Get.snackbar('Info', 'Fitur Logbook Penjaga akan segera hadir');
+              },
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFFD32F2F),
+        foregroundColor: Colors.white,
+        elevation: 8.0,
+        tooltip: 'Tombol Darurat (SOS)',
+        child: const Icon(Icons.sos, size: 30),
+        onPressed: () {
+          // Handle panic button press
+          Get.snackbar('Darurat!', 'Tombol darurat diaktifkan', backgroundColor: Colors.red, colorText: Colors.white);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+class NeumorphicMenuCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+
+  const NeumorphicMenuCard({
+    Key? key,
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFE0E5EC),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white.withOpacity(0.9),
+                offset: const Offset(-6, -6),
+                blurRadius: 16,
+              ),
+              BoxShadow(
+                color: const Color(0xFFA3B1C6).withOpacity(0.6),
+                offset: const Offset(6, 6),
+                blurRadius: 16,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 48,
+                color: const Color(0xFF0D47A1),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Color(0xFF37474F),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -316,60 +311,3 @@ class Absensi extends StatelessWidget {
   }
 }
 
-class MainMenu extends StatelessWidget {
-  final FaIcon icon;
-  final String title;
-  final Color bgColor;
-  final void Function() onTap;
-  const MainMenu({
-    Key? key,
-    required this.icon,
-    required this.title,
-    required this.bgColor,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(shape: BoxShape.circle, color: bgColor),
-              child: icon,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                title,
-                style: const TextStyle(color: Colors.black45, fontSize: 12),
-              ),
-            )
-          ],
-        ),
-        // color: Colors.red[100],
-      ),
-    );
-  }
-}

@@ -115,7 +115,7 @@ class _DropdownSelectAbsensiState extends State<DropdownSelectAbsensi> {
     content['hours'] = hour ?? '0';
     print(content);
     return await http.post(
-      Uri.https('hris.tpm-facility.com', 'attendance/absenbydanru'),
+      Uri.https('172.15.1.21', 'attendance/absenbydanru'),
       body: content,
     );
   }

@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-"""
-Script untuk menginisialisasi database dengan data sample
-"""
-
 import requests
 import json
 from datetime import datetime

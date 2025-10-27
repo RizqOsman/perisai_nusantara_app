@@ -27,13 +27,18 @@ class _CheckPointPageState extends State<CheckPointPage> {
   void readCheckPointNFC() async {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
-      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-        tagId = tag.data['nfca']['identifier'].join();
-        NfcManager.instance.stopSession();
-        Get.back();
-        statusKondisi();
-        // postCheckPoint();
-      });
+      NfcManager.instance.startSession(
+        onDiscovered: (NfcTag tag) async {
+          var nfcData = tag.data as Map<dynamic, dynamic>;
+          var identifier = (nfcData['nfca'] as Map<dynamic, dynamic>)['identifier'] as List<dynamic>;
+          tagId = identifier.join();
+          NfcManager.instance.stopSession();
+          Get.back();
+          statusKondisi();
+          // postCheckPoint();
+        },
+        pollingOptions: {NfcPollingOption.iso14443},
+      );
       showDialog(
           context: context,
           builder: (context) => CustomDialogBox(
@@ -137,7 +142,7 @@ class _CheckPointPageState extends State<CheckPointPage> {
 
   Future postCheckPoint() async {
     final response = await http.post(
-        Uri.parse('https://hris.tpm-facility.com/attendance/checkpointbynfc'),
+        Uri.parse('https://172.15.1.21/attendance/checkpointbynfc'),
         body: {
           'nik': session.read('nik'),
           'tagid': tagId,
